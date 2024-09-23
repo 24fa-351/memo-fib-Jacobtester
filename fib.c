@@ -17,7 +17,7 @@ unsigned long long fib_iterative_wrapper(int num)
    unsigned long long num_current = 1;
    unsigned long long num_next;
 
-   for (int i = 2; i < num; i++)
+   for (int ix = 2; ix < num; ix++)
    {
       num_next = num_prev + num_current;
       num_prev = num_current;
@@ -72,13 +72,26 @@ int main(int argc, char *argv[])
    int num_file;
    unsigned long long num_total;
    unsigned long long num_final;
-   char option = argv[2][0];
-   FILE *file = fopen(argv[3], "r");
+   char option;
 
    sscanf(argv[1], "%d", &num_arg);
+   option = argv[2][0];
 
-   fscanf(file, "%d", &num_file);
-   fclose(file);
+   if (argc >= 4)
+   {
+      FILE *file = fopen(argv[3], "r");
+      if (file == NULL)
+      {
+         printf("Error opening file: %s\n", argv[3]);
+         return 1;
+      }
+      fscanf(file, "%d", &num_file);
+      fclose(file);
+   }
+   else
+   {
+      num_file = 0;
+   }
 
    num_total = num_arg + num_file;
 
